@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1379895199001795069}
   - component: {fileID: 1379895199001795066}
   m_Layer: 0
-  m_Name: Basic Gun
+  m_Name: Laser Gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,6 +43,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 644521298501c8f40ac92ab706fb488a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectile: {fileID: 1238839422351122537, guid: 1e8b7591cea125f42a2b16333e2ea851,
-    type: 3}
+  projectileType: 0
   shootDelay: 0.1
+  fireClip: {fileID: 8300000, guid: 1507284793570d145907cd4ccc3eb741, type: 3}

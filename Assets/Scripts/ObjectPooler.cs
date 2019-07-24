@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ObjectPooler : MonoBehaviour
 {
-    [SerializeField] GameObject objectToPool;
-    [SerializeField] int numberToPool;
+    [SerializeField] GameObject objectToPool = null;
+    [SerializeField] int numberToPool = 1;
 
     Dictionary<int, GameObject> inactiveObjects = new Dictionary<int, GameObject>();
     Dictionary<int, GameObject> activeObjects = new Dictionary<int, GameObject>();

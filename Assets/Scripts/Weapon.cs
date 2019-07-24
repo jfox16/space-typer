@@ -6,6 +6,7 @@ public class Weapon : MonoBehaviour
 {
     public Projectile.Type projectileType;
     public float shootDelay = 1.0f;
+    public AudioClip fireClip = null;
     
     public void Fire() {
         Projectile _proj = GameController.ActivateProjectile(projectileType).GetComponent<Projectile>();

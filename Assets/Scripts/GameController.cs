@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameController : MonoBehaviour
 {
     public static GameController Instance;
+
     public float xBoundMin = -12.5f;
     public float xBoundMax = 12.5f;
     public float yBoundMin = -10.0f;

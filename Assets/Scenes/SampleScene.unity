@@ -175,7 +175,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectToPool: {fileID: 3566432900900658632, guid: 55913319adafe7d42aa12b21db45311f,
     type: 3}
-  numberToPool: 30
+  numberToPool: 40
 --- !u!4 &85689030
 Transform:
   m_ObjectHideFlags: 0
@@ -317,7 +317,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b480f617564e6d342958073ecba54f97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  team: 0
+  team: 1
   isAlive: 1
   health: 1
   moveSpeed: 10

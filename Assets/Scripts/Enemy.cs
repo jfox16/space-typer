@@ -10,12 +10,16 @@ public class Enemy : Unit
     [HideInInspector] public new Rigidbody2D rigidbody;
     [HideInInspector] public new CircleCollider2D collider;
     [HideInInspector] public Animator animator;
+    AudioSource audioSource = null;
+    [SerializeField] AudioClip hurtClip = null;
+    [SerializeField] AudioClip dieClip = null;
 
     void Awake() 
     {
         rigidbody = GetComponent<Rigidbody2D>();
         collider = GetComponent<CircleCollider2D>();
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -31,7 +35,7 @@ public class Enemy : Unit
         transform.position += Vector3.down * moveSpeed * Time.deltaTime;
 
         if (transform.position.y < GameController.Instance.yBoundMin-5) {
-            Die();
+            Deactivate();
         }
     }
 
@@ -58,5 +62,19 @@ public class Enemy : Unit
     public void Deactivate()
     {
         GameController.Instance.enemyPooler.DeactivateObject(gameObject);
+    }
+
+    public void PlayHurtClip()
+    {
+        if (hurtClip != null) {
+            audioSource.PlayOneShot(hurtClip, 0.1f);
+        }
+    }
+
+    public void PlayDieClip()
+    {
+        if (dieClip != null) {
+            audioSource.PlayOneShot(dieClip, 0.1f);
+        }
     }
 }
