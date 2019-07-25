@@ -1,19 +1,19 @@
-# Jet Spaceman
+#Jet Spaceman
 
 ![Jet Spaceman Screenshot](/imgs/jetspaceman1.png)
 
 Jet Spaceman is a space shooter built in Unity by me, Jonathan Fox!
 
-## How to Play
-- [Click here to play it in your browser!](https://fishwash.github.io/jet-spaceman/)
+##How to Play
+##[Click here to play it in your browser!](https://fishwash.github.io/jet-spaceman/)
 
-## Controls
+##Controls
 - Move: WASD or Arrow Keys
 - Shoot: Space
 - Equip Laser: 1
 - Equip Shuriken: 2
 
-## Programming Principles Applied
+##Programming Principles Applied
 For this game, I designed around smart usage of memory. Memory leaks can occur when a game is constantly instantiating and destroying game objects. 
 
 Memory is allocated for a game object when it is instantiated, and the memory is cleared when it is destroyed. However, this memory is not always available for reuse. Another game element must be the right size to use the memory, otherwise that portion of memory is essentially useless. If this happens repeatedly, you end up with a large amount of unusable memory.
