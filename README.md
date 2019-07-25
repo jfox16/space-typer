@@ -12,6 +12,12 @@ Jet Spaceman is a space shooter built in Unity by me, Jonathan Fox!
 - Equip Laser: 1
 - Equip Shuriken: 2
 
+## Programs Used
+- Game Engine: Unity 2018.4.4
+- Pixel Art: Drawn in Aseprite
+- Sounds: Downloaded from freesound.org and combined in Audacity
+- Music: Written using LMMS
+
 ## Programming Principles Applied
 For this game, I designed around smart usage of memory. Memory leaks can occur when a game is constantly instantiating and destroying game objects. 
 
