@@ -4,7 +4,6 @@
 
 Jet Spaceman is a space shooter built in Unity by me, Jonathan Fox!
 
-## How to Play
 ## [Click here to play it in your browser!](https://fishwash.github.io/jet-spaceman/)
 
 ## Controls
