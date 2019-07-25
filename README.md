@@ -5,7 +5,7 @@
 Jet Spaceman is a space shooter built in Unity by me, Jonathan Fox!
 
 ## How to Play
-- [Click Here](https://fishwash.github.io/jet-spaceman/) to play it in your browser.
+- [Click here to play it in your browser!](https://fishwash.github.io/jet-spaceman/)
 
 ## Controls
 - Move: WASD or Arrow Keys
@@ -23,3 +23,5 @@ In this game, enemies and projectiles are constantly being created and destroyed
 My solution uses design pattern called Object Pooling. Instead of creating and destroying objects, it reuses objects from a 'pool'. The objects are pre-instantiated in the pool at the start of the game, and enabled or disabled depending on the need. 
 
 My EnemyPooler creates 50 enemies at the start of the game. Whenever a Spawner object creates an Enemy, it asks the EnemyPooler for an unused Enemy. If there's one available, it uses that and initializes it in the right position. When that Enemy dies, it simply returns itself back to the EnemyPooler.
+
+This allows for the same functionality as doing it a simpler way, but guarantees that there won't be problems with memory. With only 50 objects on the screen you won't notice anything, but in games where there are hundreds of objects it makes a huge difference.

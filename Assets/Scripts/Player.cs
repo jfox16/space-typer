@@ -8,14 +8,17 @@ public class Player : Unit
     [SerializeField] float moveSpeed = 1f;
     [HideInInspector] public new Rigidbody2D rigidbody;
     [HideInInspector] public new CircleCollider2D collider;
-    Animator animator;
-    AudioSource audioSource;
+    Animator animator = null;
+    AudioSource audioSource = null;
 
     [SerializeField] Vector2 spawnPosition = new Vector2(0, -8);
-    [SerializeField] List<Weapon> weapons;
+    [SerializeField] List<Weapon> weapons = new List<Weapon>();
     int equippedWeaponIndex = 0;
     Timer shootTimer;
     Timer spawnTimer;
+
+    [SerializeField] AudioClip hurtClip = null;
+    [SerializeField] AudioClip dieClip = null;
 
     void Start() 
     {
@@ -108,7 +111,7 @@ public class Player : Unit
             // Play audio
             AudioClip _fireClip = _equippedWeapon.fireClip;
             if (_fireClip != null) {
-                audioSource.PlayOneShot(_fireClip, 0.1f);
+                audioSource.PlayOneShot(_fireClip, AudioController.Instance.globalVolume);
             }
         }
     }
@@ -131,5 +134,15 @@ public class Player : Unit
         isAlive = false;
         animator.SetTrigger("Die");
         Invoke("Spawn", 1);
+    }    
+    
+    public void PlayHurtClip()
+    {
+        audioSource.PlayOneShot(hurtClip, AudioController.Instance.globalVolume);
+    }
+
+    public void PlayDieClip()
+    {
+        audioSource.PlayOneShot(dieClip, AudioController.Instance.globalVolume);
     }
 }

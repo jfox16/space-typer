@@ -67,14 +67,14 @@ public class Enemy : Unit
     public void PlayHurtClip()
     {
         if (hurtClip != null) {
-            audioSource.PlayOneShot(hurtClip, 0.1f);
+            audioSource.PlayOneShot(hurtClip, AudioController.Instance.globalVolume);
         }
     }
 
     public void PlayDieClip()
     {
         if (dieClip != null) {
-            audioSource.PlayOneShot(dieClip, 0.1f);
+            audioSource.PlayOneShot(dieClip, AudioController.Instance.globalVolume);
         }
     }
 }
