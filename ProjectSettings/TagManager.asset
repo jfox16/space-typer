@@ -13,7 +13,7 @@ TagManager:
   - UI
   - 
   - 
-  - 
+  - Hide In Game
   - 
   - 
   - 
@@ -49,4 +49,7 @@ TagManager:
     locked: 0
   - name: Player
     uniqueID: 1116509105
+    locked: 0
+  - name: Enemy Projectiles
+    uniqueID: 4176388821
     locked: 0

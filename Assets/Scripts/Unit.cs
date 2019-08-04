@@ -4,8 +4,14 @@ using UnityEngine;
 
 public abstract class Unit : MonoBehaviour
 {
+    public bool isAlive = true;
+
     public enum Team {Neutral, Player, Enemy}
     public Team team;
-    public bool isAlive = true;
-    public abstract void Hurt(float damage);
+
+    public float health;
+
+    public virtual void Hurt(float damage) {
+        health -= 1;
+    }
 }

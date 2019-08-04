@@ -5,27 +5,43 @@ using UnityEngine;
 public class AudioController : MonoBehaviour
 {
     public static AudioController Instance = null;
-    [SerializeField] public float globalVolume = 0.5f;
-    AudioSource audioSource = null;
-    [SerializeField] AudioClip mainClip = null;
+
+    [SerializeField] public float soundVolume = 0.5f;
+    [SerializeField] public float musicVolume = 0.5f;
+
+    [SerializeField] AudioSource introAudioSource = null;
+    [SerializeField] AudioSource loopAudioSource = null;
+    [SerializeField] AudioSource soundEffectSource = null;
+    
+    [SerializeField] AudioClip bgMusicIntro = null;
+    [SerializeField] AudioClip bgMusicLoop = null;
+
 
     void Awake()
     {
         Instance = this;
-        audioSource = GetComponent<AudioSource>();
     }
 
     void Start()
     {
-        PlayClip(mainClip, true);
+        PlayLoop(bgMusicIntro, bgMusicLoop);
     }
 
-    public void PlayClip(AudioClip audioClip, bool playLoop)
+    public void PlayLoop(AudioClip introClip, AudioClip loopClip)
     {
-        if (audioSource != null) {
-            audioSource.clip = audioClip;
-            audioSource.loop = playLoop;
-            audioSource.Play();
+        if (introAudioSource != null && loopAudioSource != null) {
+            introAudioSource.clip = introClip;
+            introAudioSource.volume = musicVolume;
+            loopAudioSource.clip = loopClip;
+            loopAudioSource.volume = musicVolume;
+            loopAudioSource.loop = true;
+            introAudioSource.Play();
+            loopAudioSource.PlayDelayed(introClip.length);
         }
+    }
+
+    public void PlayOneShot(AudioClip clip)
+    {
+        soundEffectSource.PlayOneShot(clip, soundVolume);
     }
 }

@@ -4,38 +4,54 @@ using UnityEngine;
 
 public class Player : Unit
 {
-    [SerializeField] float health = 1f;
-    [SerializeField] float moveSpeed = 1f;
+    //=============================================================================================
+
+    #region VARIABLES
+    
     [HideInInspector] public new Rigidbody2D rigidbody;
     [HideInInspector] public new CircleCollider2D collider;
-    Animator animator = null;
-    AudioSource audioSource = null;
+    private Animator animator = null;
+    private Animator effectAnimator = null;
+    
+    [SerializeField] float moveSpeed = 1f;
+    [SerializeField] float invulnTime = 3f;
 
     [SerializeField] Vector2 spawnPosition = new Vector2(0, -8);
     [SerializeField] List<Weapon> weapons = new List<Weapon>();
     int equippedWeaponIndex = 0;
-    Timer shootTimer;
-    Timer spawnTimer;
 
     [SerializeField] AudioClip hurtClip = null;
     [SerializeField] AudioClip dieClip = null;
+    
+    Timer shootTimer, spawnTimer, invulnTimer;
 
-    void Start() 
+    #endregion
+
+    //=============================================================================================
+
+    #region MONOBEHAVIOUR CALLBACKS
+
+    void Awake() 
     {
         rigidbody = GetComponent<Rigidbody2D>();
         collider = GetComponent<CircleCollider2D>();
         animator = GetComponent<Animator>();
-        audioSource = GetComponent<AudioSource>();
+        effectAnimator = transform.Find("Sprite").GetComponent<Animator>();
+
         shootTimer = new Timer();
         spawnTimer = new Timer();
+        invulnTimer = new Timer();
+    }
 
-        team = Unit.Team.Player;
-        isAlive = true;
+    void Start()
+    {
+        Spawn();
     }
 
     // Update is called once per frame
     void Update()
     {
+        CheckState();
         if (isAlive) {
             Move();
             SwitchWeapon();
@@ -47,14 +63,27 @@ public class Player : Unit
         }
     }
     
-    void OnTriggerEnter2D(Collider2D col) {
-        Unit _unit = col.GetComponent<Unit>();
-        if (_unit != null) {
-            bool _isEnemy = (_unit.team == Unit.Team.Neutral || _unit.team != team);
-            if (_unit.isAlive && this.isAlive && _isEnemy ) {
-                Die();
+    void OnTriggerStay2D(Collider2D col) {
+        if (isAlive && invulnTimer.isDone) {
+            Unit _unit = col.GetComponent<Unit>();
+            if (_unit != null) {
+                bool _isEnemy = (_unit.team == Unit.Team.Neutral || _unit.team != team);
+                if (_unit.isAlive && _isEnemy ) {
+                    Die();
+                }
             }
         }
+    }
+
+    #endregion
+
+    //=============================================================================================
+
+    #region PRIVATE METHODS
+
+    void CheckState()
+    {
+        effectAnimator.SetBool("Transparent", !invulnTimer.isDone);
     }
 
     void Move() 
@@ -83,7 +112,7 @@ public class Player : Unit
         // Make final movement
         transform.position = new Vector3(_newPositionX, _newPositionY, 0);
         // Animate
-        animator.SetFloat("Horizontal Movement", _xInput);
+        animator.SetFloat("Horizontal Movement", Input.GetAxis("Horizontal"));
     }
 
     void SwitchWeapon() 
@@ -111,22 +140,18 @@ public class Player : Unit
             // Play audio
             AudioClip _fireClip = _equippedWeapon.fireClip;
             if (_fireClip != null) {
-                audioSource.PlayOneShot(_fireClip, AudioController.Instance.globalVolume);
+                AudioController.Instance.PlayOneShot(_fireClip);
             }
         }
-    }
-
-    public override void Hurt(float damage) 
-    {
-        health -= damage;
-        if (health <= 0) Die();
     }
 
     void Spawn()
     {
         isAlive = true;
         transform.position = spawnPosition;
+        effectAnimator.SetBool("Transparent", true);
         animator.SetTrigger("Spawn");
+        invulnTimer.SetTime(invulnTime);
     }
 
     void Die()
@@ -134,15 +159,33 @@ public class Player : Unit
         isAlive = false;
         animator.SetTrigger("Die");
         Invoke("Spawn", 1);
-    }    
+    }
+
+    #endregion
+
+    //=============================================================================================
+
+    #region PUBLIC METHODS
+
+    public override void Hurt(float damage) 
+    {
+        if (invulnTimer.isDone) {
+            health -= damage;
+            if (health <= 0) Die();
+        }
+    }
     
     public void PlayHurtClip()
     {
-        audioSource.PlayOneShot(hurtClip, AudioController.Instance.globalVolume);
+        AudioController.Instance.PlayOneShot(hurtClip);
     }
 
     public void PlayDieClip()
     {
-        audioSource.PlayOneShot(dieClip, AudioController.Instance.globalVolume);
+        AudioController.Instance.PlayOneShot(dieClip);
     }
+
+    #endregion
+
+    //=============================================================================================
 }

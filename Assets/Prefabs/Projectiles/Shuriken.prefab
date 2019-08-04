@@ -103,10 +103,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32bb82bab246ae2429599cdbc52eaa57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  type: 1
   team: 1
   moveSpeed: 4
-  damage: 17
+  damage: 20
   moveDirection: {x: 0, y: 1}
 --- !u!1 &1238839422548046036
 GameObject:
