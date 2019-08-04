@@ -9,7 +9,7 @@ public class Player : Unit
     #region VARIABLES
     
     [HideInInspector] public new Rigidbody2D rigidbody;
-    [HideInInspector] public new CircleCollider2D collider;
+    [HideInInspector] public new CapsuleCollider2D collider;
     private Animator animator = null;
     private Animator effectAnimator = null;
     
@@ -34,7 +34,7 @@ public class Player : Unit
     void Awake() 
     {
         rigidbody = GetComponent<Rigidbody2D>();
-        collider = GetComponent<CircleCollider2D>();
+        collider = GetComponent<CapsuleCollider2D>();
         animator = GetComponent<Animator>();
         effectAnimator = transform.Find("Sprite").GetComponent<Animator>();
 
@@ -95,18 +95,18 @@ public class Player : Unit
         float _newPositionY = transform.position.y + _yInput * moveSpeed * Time.deltaTime;
 
         // Check Horizontal Bounds
-        if (_newPositionX - collider.radius < GameController.Instance.xBoundMin) {
-            _newPositionX = GameController.Instance.xBoundMin + collider.radius;
+        if (_newPositionX - collider.size.x/2 < GameController.Instance.xBoundMin) {
+            _newPositionX = GameController.Instance.xBoundMin + collider.size.x/2;
         }
-        else if (_newPositionX + collider.radius > GameController.Instance.xBoundMax) {
-            _newPositionX = GameController.Instance.xBoundMax - collider.radius;
+        else if (_newPositionX + collider.size.x/2 > GameController.Instance.xBoundMax) {
+            _newPositionX = GameController.Instance.xBoundMax - collider.size.x/2;
         }
         // Check Vertical Bounds
-        if (_newPositionY - collider.radius < GameController.Instance.yBoundMin) {
-            _newPositionY = GameController.Instance.yBoundMin + collider.radius;
+        if (_newPositionY - collider.size.y/2 < GameController.Instance.yBoundMin) {
+            _newPositionY = GameController.Instance.yBoundMin + collider.size.y/2;
         }
-        else if (_newPositionY + collider.radius > GameController.Instance.yBoundMax) {
-            _newPositionY = GameController.Instance.yBoundMax - collider.radius;
+        else if (_newPositionY + collider.size.y/2 > GameController.Instance.yBoundMax) {
+            _newPositionY = GameController.Instance.yBoundMax - collider.size.y/2;
         }
 
         // Make final movement
