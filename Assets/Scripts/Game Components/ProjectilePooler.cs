@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class ProjectilePooler : MonoBehaviour
 {
-    [SerializeField] bool debug = false;
-
     public static ProjectilePooler Instance = null;
 
     [SerializeField] GameObject objectToPool = null;

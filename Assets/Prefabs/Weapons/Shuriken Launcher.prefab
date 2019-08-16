@@ -45,5 +45,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectile: {fileID: 1238839422351122539, guid: 445ffdd654df9794e8d8a2f95e16f901,
     type: 3}
-  shootDelay: 0.3
+  shootDelay: 1
   fireClip: {fileID: 8300000, guid: b1495bf42aff9ec44a226d38e987f09c, type: 3}

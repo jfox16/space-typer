@@ -14,7 +14,7 @@ TagManager:
   - 
   - 
   - Hide In Game
-  - 
+  - Combat
   - 
   - 
   - 
@@ -47,7 +47,7 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: New Layer
+  - name: Enemies
     uniqueID: 1479919073
     locked: 0
   - name: Player
@@ -55,4 +55,10 @@ TagManager:
     locked: 0
   - name: Enemy Projectiles
     uniqueID: 4176388821
+    locked: 0
+  - name: Effects
+    uniqueID: 2611147105
+    locked: 0
+  - name: HUD
+    uniqueID: 2868240721
     locked: 0

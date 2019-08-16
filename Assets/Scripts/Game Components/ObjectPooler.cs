@@ -14,7 +14,7 @@ public class ObjectPooler : MonoBehaviour
         for (int i=0; i<numberToPool; i++) {
             GameObject _obj = Instantiate(objectToPool, transform);
             _obj.SetActive(false);
-            _obj.transform.position = new Vector3(0, -20, 0);
+            _obj.transform.position = transform.position;
             inactiveObjects.Add(_obj.GetInstanceID(), _obj);
         }
     }
@@ -25,7 +25,7 @@ public class ObjectPooler : MonoBehaviour
     /// </summary>
     public GameObject ActivateObject() 
     {
-        if (inactiveObjects.Count == 0) {
+        if (inactiveObjects.Count <= 0) {
             Debug.LogError("Object limit reached");
             return null;
         }
@@ -33,8 +33,7 @@ public class ObjectPooler : MonoBehaviour
         // All we need is an inactive object, it doesn't matter which one.
         // We access a random element in inactiveObjects using the first key in the list of keys.
         int _firstKey = new List<int>(inactiveObjects.Keys)[0];
-        GameObject _obj;
-        _obj = inactiveObjects[_firstKey];
+        GameObject _obj = inactiveObjects[_firstKey];
         _obj.SetActive(true);
         inactiveObjects.Remove(_firstKey);
         activeObjects.Add(_firstKey, _obj);
@@ -46,6 +45,7 @@ public class ObjectPooler : MonoBehaviour
     /// </summary>
     public void DeactivateObject(GameObject _obj) {
         _obj.SetActive(false);
+
         int _key = _obj.GetInstanceID();
         activeObjects.Remove(_key);
         inactiveObjects.Add(_key, _obj);

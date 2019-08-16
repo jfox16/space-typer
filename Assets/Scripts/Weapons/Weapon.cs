@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Weapon : MonoBehaviour
 {
-    [SerializeField] GameObject projectile;
-    public float shootDelay = 1.0f;
-    public AudioClip fireClip = null;
+    protected bool triggerPressed;
+    public float maxEnergy = 10;
+    [HideInInspector] public float energy = 0;
     
-    public Projectile Fire() {
-        GameObject _projGo = PoolController.Activate(projectile, transform.position, Quaternion.identity);
-        return _projGo.GetComponent<Projectile>();
+    public virtual void PressTrigger(bool triggerPressedNow)
+    {
+        this.triggerPressed = triggerPressedNow;
     }
 }

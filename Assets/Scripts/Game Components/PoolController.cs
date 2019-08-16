@@ -2,6 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+
+Spawn and despawn GameObjects through this class.
+
+- To spawn a GameObject:
+    PoolController.Instance.Activate(gameObjectPrefab, position, rotation);
+
+- To despawn a GameObject:
+    PoolController.Instance.Deactivate(gameObject);
+
+ */
+
 public class PoolController : MonoBehaviour
 {
     public static PoolController Instance;
@@ -18,12 +30,14 @@ public class PoolController : MonoBehaviour
         foreach(ObjectPooler _pooler in _objectPoolers) {
             string _objectName = _pooler.objectToPool.name;
             poolDict.Add(_objectName, _pooler);
-            Debug.Log("[PoolController] Added " + _objectName + " pooler");
+            if (showDebug) {
+                Debug.Log("[PoolController] Added " + _objectName + " pooler");
+            }
         }
     }
 
     /// <summary>
-    /// Activates a GameObject from the appropriate pool, if it exists.
+    /// Activates a GameObject from the appropriate pool, if available.
     /// Returns a reference to the GameObject if successful, null otherwise.
     /// </summary>
     public static GameObject Activate(GameObject objectToActivate, Vector3 position, Quaternion rotation) 
@@ -35,15 +49,25 @@ public class PoolController : MonoBehaviour
         // Activate an object from the pooler and return it
         if (_pooler != null) {
             GameObject _activatedObject = _pooler.ActivateObject();
-            _activatedObject.transform.SetPositionAndRotation(position, rotation);
-            return _activatedObject;
+            if (_activatedObject != null) {
+                _activatedObject.transform.SetPositionAndRotation(position, rotation);
+                return _activatedObject;
+            }
+            else {
+                Debug.LogError("[PoolController] Activate() failed.");
+                return null;
+            }
         }
+        // Return null if no pool available
         else {
             Debug.LogError("No pool available for " + _objectName);
             return null;
         }
     }
 
+    /// <summary>
+    /// Deactivates a GameObject and returns it to the appropriate pool, if available.
+    /// </summary>
     public static void Deactivate(GameObject objectToDeactivate) 
     {
         // Find the Object Pooler that matches desired object

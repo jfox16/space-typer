@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4824341512259777911}
   - component: {fileID: 1720894192702230642}
   - component: {fileID: 4804297384165890630}
-  - component: {fileID: 1238839422351122537}
+  - component: {fileID: 8657244981028223804}
   m_Layer: 0
   m_Name: Shuriken
   m_TagString: Untagged
@@ -43,7 +43,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1238839422351122539}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -91,7 +91,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &1238839422351122537
+--- !u!114 &8657244981028223804
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -100,13 +100,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 1238839422351122539}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32bb82bab246ae2429599cdbc52eaa57, type: 3}
+  m_Script: {fileID: 11500000, guid: 9b36bbb2395a5d04dad1b9305f78a1bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rigidbody: {fileID: 0}
+  collider: {fileID: 0}
+  isAlive: 0
   team: 1
-  moveSpeed: 4
-  damage: 20
-  moveDirection: {x: 0, y: 1}
+  material: 1
+  defaultRotation: 90
+  health: 0
+  energy: 0
+  maxHealth: 2
+  maxEnergy: 1
+  baseDamage: 3
+  baseArmor: 0
+  moveSpeed: 10
+  hurtThisFrame: 0
+  speedUpRate: 2
 --- !u!1 &1238839422548046036
 GameObject:
   m_ObjectHideFlags: 0
@@ -116,6 +127,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1238839422548046037}
+  - component: {fileID: 1684279858743829323}
   - component: {fileID: 1238839422548046026}
   m_Layer: 0
   m_Name: Sprite
@@ -138,6 +150,25 @@ Transform:
   m_Father: {fileID: 1238839422351122536}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1684279858743829323
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238839422548046036}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cf7786180cad9b54cb9dbcd4846879ce, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!212 &1238839422548046026
 SpriteRenderer:
   m_ObjectHideFlags: 0

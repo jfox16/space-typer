@@ -4,25 +4,50 @@ using UnityEngine;
 
 public class WaveController : MonoBehaviour
 {
-    [SerializeField] float timeBeforeFirstSpawn = 5.0f;
+    public static WaveController Instance = null;
 
     WaveSpawner[] waveSpawners;
-    int waveSpawner_i = 0;
+    int current_index = 0;
+    float timeToFirstSpawn = 0;
 
     void Awake() {
+        Instance = this;
         waveSpawners = GetComponentsInChildren<WaveSpawner>();
     }
 
     void Start()
     {
-        Invoke("StartNextWave", timeBeforeFirstSpawn);
+        InitializeWaveSpawners();
+        if (waveSpawners.Length >= 1) {
+            Invoke("StartNextWave", timeToFirstSpawn);
+        }
+    }
+
+    // Wave Spawners spawn in order of their y-position.
+    // This function determines the time between one WaveSpawner and the next,
+    // based on the difference between their y-positions.
+    void InitializeWaveSpawners()
+    {
+        WaveSpawner _lastWs = null;
+        foreach (WaveSpawner _ws in waveSpawners) {
+            if (_lastWs == null) {
+                float _time = _ws.transform.position.y - transform.position.y;
+                timeToFirstSpawn = _time;
+                _lastWs = _ws;
+            }
+            else {
+                float _time = _ws.transform.position.y - _lastWs.transform.position.y;
+                _lastWs.timeToNextWave = _time;
+                _lastWs = _ws;
+            }
+        }
     }
 
     void StartNextWave() {
-        if (waveSpawner_i < waveSpawners.Length) {
-            WaveSpawner _waveSpawner = waveSpawners[waveSpawner_i];
+        if (current_index < waveSpawners.Length) {
+            WaveSpawner _waveSpawner = waveSpawners[current_index];
             _waveSpawner.SpawnObjects();
-            waveSpawner_i++;
+            current_index++;
             Invoke("StartNextWave", _waveSpawner.timeToNextWave);
         }
     }
