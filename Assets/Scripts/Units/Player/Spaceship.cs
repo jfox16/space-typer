@@ -42,10 +42,12 @@ public class Spaceship : Player
     }
 
     // Update is called once per frame
+    // START HERE TO FIGURE OUT WHAT A FUNCTION DOES
     protected override void Update()
     {
         CheckState();
-        if (isAlive) {
+        if (isAlive) 
+        {
             Move();
             SwitchWeapon();
             Shoot();
@@ -63,6 +65,9 @@ public class Spaceship : Player
         // Read Input
         float _xInput = Input.GetAxis("Horizontal");
         float _yInput = Input.GetAxis("Vertical");
+        // Camera Movement
+        MainCameraTransformer.SetCenterRotation(new Vector3(0, _xInput, 0) * 0.3f);
+
         float _newPositionX = transform.position.x + _xInput * moveSpeed * Time.deltaTime;
         float _newPositionY = transform.position.y + _yInput * moveSpeed * Time.deltaTime;
 
@@ -90,6 +95,7 @@ public class Spaceship : Player
     public override void Spawn()
     {
         base.Spawn();
+
         animator.SetTrigger("Spawn");
         effectAnimator.SetBool("Transparent", true);
         invulnTimer.SetTime(invulnTime);
@@ -98,8 +104,13 @@ public class Spaceship : Player
     public override void Die()
     {
         isAlive = false;
-        animator.SetTrigger("Die");
         Invoke("Spawn", 1);
+        animator.SetTrigger("Die");
+        MainCameraTransformer.AddVelocity(Random.insideUnitCircle.normalized * 5);
+
+        // if(equippedWeapon) {
+        //     equippedWeapon.enabled = false;
+        // }
     }
 
     void CheckState()
@@ -112,12 +123,12 @@ public class Spaceship : Player
         if (weapons.Count <= 0) 
             return;
             
-        if (Input.GetButtonDown("Weapon 1")) {
-            equippedWeaponIndex = 0;
-        }
-        else if (Input.GetButtonDown("Weapon 2")) {
-            equippedWeaponIndex = 1;
-        }
+        // if (Input.GetButtonDown("Weapon 1")) {
+        //     equippedWeaponIndex = 0;
+        // }
+        // else if (Input.GetButtonDown("Weapon 2")) {
+        //     equippedWeaponIndex = 1;
+        // }
         else if (Input.GetButtonDown("Previous Weapon")) {
             equippedWeaponIndex = (equippedWeaponIndex - 1 + weapons.Count) % weapons.Count;
         }
@@ -159,6 +170,7 @@ public class Spaceship : Player
             damage = base.TakeDamage(damage, damageType);
             if (damage > 0 && isAlive) {
                 invulnTimer.SetTime(invulnTime);
+                MainCameraTransformer.AddVelocity(Random.insideUnitCircle.normalized * 5);
                 PlayHurtClip();
             }
             return damage;

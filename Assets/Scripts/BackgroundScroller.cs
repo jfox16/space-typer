@@ -21,7 +21,8 @@ public class BackgroundScroller : MonoBehaviour
             _bgObj.transform.position += Vector3.down * scrollSpeed * Time.deltaTime;
             if (_bgObj.transform.position.y < -backgroundDimensions.y) {
                 float _resetY = (backgroundObjects.Count-1) * backgroundDimensions.y;
-                _bgObj.transform.position = Vector3.up * _resetY;
+                float zPos = _bgObj.transform.position.z;
+                _bgObj.transform.position = (Vector3.up * _resetY) + new Vector3(0, 0, zPos);
             }
         }
     }

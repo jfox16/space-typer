@@ -11,36 +11,39 @@ public abstract class Unit : Poolable
     [HideInInspector] public new Rigidbody2D rigidbody;
     [HideInInspector] public new Collider2D collider;
 
-    public bool isAlive = false;
-
+    // Teams
     public enum Team {Neutral, Player, Enemy}
     public Team team;
 
-    public enum Material {Flesh, Metal, Energy, Void}
+    // Materials
+    public enum Material {Neutral, Metal, Energy, Void}
     public Material material;
+    static float[,] materialModifierMap = null;
+    static int numOfMaterials = 4;
 
+    // Returns a vector pointing toward the front of this object.
     public Vector3 forwardVector
     {
-        get {
-            return transform.rotation * Vector3.right;
-        }
+        get { return transform.rotation * Vector3.right; }
         private set {}
     }
 
-    [HideInInspector] public int health = 0;
+    public bool isAlive = false;
+
+    // Stats
     public int maxHealth = 1;
+    [HideInInspector] public int health = 0;
     public int baseDamage = 1;
     public int baseArmor = 0;
     public float moveSpeed = 1;
-
-    static float[,] materialModifierMap = null;
-    static int numOfMaterials = 4;
 
     protected Animator animator = null;
     protected Animator effectAnimator = null;
 
     // This variable is used to ensure that a Unit is only damaged once per frame
-    [HideInInspector] public bool hurtThisFrame = false;
+    // [HideInInspector] public bool hurtThisFrame = false;
+
+    Dictionary<Unit, bool> unitsCollidedWithThisFrame = new Dictionary<Unit, bool>();
 
     #endregion
 
@@ -56,7 +59,7 @@ public abstract class Unit : Poolable
         effectAnimator = transform.Find("Sprite").GetComponent<Animator>();
     }
 
-    protected virtual void Start()
+    protected virtual void Start() 
     {}
 
     protected virtual void Update()
@@ -68,7 +71,8 @@ public abstract class Unit : Poolable
 
     protected virtual void LateUpdate()
     {
-        hurtThisFrame = false;
+        // hurtThisFrame = false;
+        unitsCollidedWithThisFrame.Clear();
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D otherColl) 
@@ -77,12 +81,10 @@ public abstract class Unit : Poolable
         if (!isAlive)
             return;
 
-        Unit _otherUnit = otherColl.GetComponent<Unit>();
-        if (_otherUnit == null)
-            return;
-
-        // Deal contact damage to both Units
-        TradeDamage(_otherUnit);
+        Unit otherUnit = otherColl.GetComponent<Unit>();
+        if (otherUnit != null) {
+            CollideWith(otherUnit);
+        }
     }
 
     #endregion
@@ -131,43 +133,17 @@ public abstract class Unit : Poolable
         return targetUnit.TakeDamage(baseDamage, material);
     }
 
-    protected virtual void TradeDamage(Unit otherUnit)
-    {
-        bool _bothAlive = (isAlive && otherUnit.isAlive);
-        bool _bothNotHurtThisFrame = (!hurtThisFrame && !otherUnit.hurtThisFrame);
-        bool _notMyTeam = (team != otherUnit.team || otherUnit.team == Unit.Team.Neutral);
-
-        if (_bothAlive && _bothNotHurtThisFrame && _notMyTeam) 
-        {
-            int _damageDealtToOther = this.DealDamageTo(otherUnit);
-            int _damageDealtToThis = otherUnit.DealDamageTo(this);
-
-            if (showDebug && _damageDealtToOther > 0 && _damageDealtToThis > 0) {
-                Debug.Log(string.Format("[Unit] Trade! {0} takes {1} {2} damage, {3} takes {4} {5} damage.", 
-                    gameObject.name, 
-                    _damageDealtToThis,
-                    otherUnit.material,
-                    otherUnit.gameObject.name,
-                    _damageDealtToOther,
-                    material
-                ));
-            }
-        }
-    }
-
     // Take damage
-    public virtual int TakeDamage(int damage, Material damageType) 
+    public virtual int TakeDamage(int baseDamage, Material damageType) 
     {
         // Check if this unit is alive
         if (!isAlive)
             return -1;
 
         // Apply material modifiers
-        damage = (int)(damage * LookUpMaterialModifier(damageType, this.material));
+        int damage = (int)(baseDamage * LookUpMaterialModifier(damageType, this.material));
         if (damage <= 0)
             return -1;
-        else
-            hurtThisFrame = true;
 
         // Apply armor reduction
         damage = Mathf.Clamp(damage - baseArmor, 1, 255);
@@ -178,6 +154,66 @@ public abstract class Unit : Poolable
             Die();
 
         return damage;
+    }
+
+    /**
+     * This function is how all Units do "combat" with each other.
+     * It makes sure they are valid targets, and if so, they deal damage to each other.
+     * Additional damage calculation is done in the DealDamageTo and TakeDamage functions.
+     */
+    protected virtual void CollideWith(Unit otherUnit)
+    {
+        // Check if Units have not collided yet this frame
+        bool haveNotCollided = !HaveCollidedThisFrame(this, otherUnit);
+        // Check if both Units are alive
+        bool bothAlive = (isAlive && otherUnit.isAlive);
+        // bool _bothNotHurtThisFrame = (!hurtThisFrame && !otherUnit.hurtThisFrame);
+        // Check if Units are on different teams
+        bool notSameTeam = (team != otherUnit.team || otherUnit.team == Unit.Team.Neutral);
+
+        if (bothAlive && haveNotCollided && notSameTeam) 
+        {
+            // Successful Collision!
+
+            // Deal damage to each other
+            int damageDealtToOther = this.DealDamageTo(otherUnit);
+            int damageDealtToThis = otherUnit.DealDamageTo(this);
+
+            // Add units to each others' UnitsCollidedWithThisFrame dictionaries
+            this.AddUnitCollidedWith(otherUnit);
+            otherUnit.AddUnitCollidedWith(this);
+
+            // Debug Log the details of collision
+            if (showDebug && damageDealtToOther > 0 && damageDealtToThis > 0) {
+                Debug.Log(string.Format("[Unit] Units collide! {0} takes {1} {2} damage, {3} takes {4} {5} damage.", 
+                    gameObject.name, 
+                    damageDealtToThis,
+                    otherUnit.material,
+                    otherUnit.gameObject.name,
+                    damageDealtToOther,
+                    material
+                ));
+            }
+        }
+    }
+
+    // Keeps track of a unit as having been collided with this frame.
+    public virtual void AddUnitCollidedWith(Unit otherUnit) 
+    {
+        unitsCollidedWithThisFrame.Add(otherUnit, true);
+    }
+
+    // Returns true if these two units have already collided this frame.
+    public static bool HaveCollidedThisFrame(Unit unit1, Unit unit2) 
+    {
+        if (unit1.unitsCollidedWithThisFrame.ContainsKey(unit2)
+            || unit2.unitsCollidedWithThisFrame.ContainsKey(unit1)) 
+        {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     #endregion
@@ -250,30 +286,30 @@ public abstract class Unit : Poolable
     {
         materialModifierMap = new float[numOfMaterials, numOfMaterials];
 
-        int _flesh  = (int)Material.Flesh;
-        int _metal  = (int)Material.Metal;
-        int _energy = (int)Material.Energy;
-        int _void   = (int)Material.Void;
+        int _neutral  = (int)Material.Neutral;
+        int _metal    = (int)Material.Metal;
+        int _energy   = (int)Material.Energy;
+        int _void     = (int)Material.Void;
 
-        materialModifierMap[_flesh, _flesh]  = 1.0f;
-        materialModifierMap[_flesh, _metal]  = 1.0f;
-        materialModifierMap[_flesh, _energy] = 1.0f;
-        materialModifierMap[_flesh, _void]   = 0.0f;
+        materialModifierMap[_neutral, _neutral] = 1.0f;
+        materialModifierMap[_neutral, _metal]   = 1.0f;
+        materialModifierMap[_neutral, _energy]  = 1.0f;
+        materialModifierMap[_neutral, _void]    = 0.0f;
 
-        materialModifierMap[_metal, _flesh]  = 1.5f;
-        materialModifierMap[_metal, _metal]  = 1.0f;
-        materialModifierMap[_metal, _energy] = 1.0f;
-        materialModifierMap[_metal, _void]   = 0.0f;
+        materialModifierMap[_metal, _neutral] = 1.5f;
+        materialModifierMap[_metal, _metal]   = 1.0f;
+        materialModifierMap[_metal, _energy]  = 1.0f;
+        materialModifierMap[_metal, _void]    = 0.0f;
 
-        materialModifierMap[_energy, _flesh]  = 1.5f;
-        materialModifierMap[_energy, _metal]  = 1.0f;
-        materialModifierMap[_energy, _energy] = 0.0f;
-        materialModifierMap[_energy, _void]   = 1.0f;
+        materialModifierMap[_energy, _neutral] = 1.0f;
+        materialModifierMap[_energy, _metal]   = 1.0f;
+        materialModifierMap[_energy, _energy]  = 0.0f;
+        materialModifierMap[_energy, _void]    = 1.0f;
 
-        materialModifierMap[_void, _flesh]  = 1.0f;
-        materialModifierMap[_void, _metal]  = 1.5f;
-        materialModifierMap[_void, _energy] = 0.0f;
-        materialModifierMap[_void, _void]   = 1.5f;
+        materialModifierMap[_void, _neutral] = 1.0f;
+        materialModifierMap[_void, _metal]   = 1.5f;
+        materialModifierMap[_void, _energy]  = 0.0f;
+        materialModifierMap[_void, _void]    = 1.5f;
     }
 
     public static float LookUpMaterialModifier(Material damageType, Material targetMaterial) 

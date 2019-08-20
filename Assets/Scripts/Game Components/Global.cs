@@ -12,16 +12,36 @@ public class Global : MonoBehaviour
     public static float yBoundMin = -7.5f;
     public static float yBoundMax = 10.0f;
 
-    [SerializeField] GameObject energySpark = null;
+    public enum GameState {Off, Running, Paused}
+    public static GameState gameState = GameState.Off;
+
+    //Controls
+    bool ctrlPressed, altPressed, escPressed, resetted;
 
     void Awake() {
         Instance = this; 
     }
 
-    void Update() {
-        // Press Esc to restart
-        if (Input.GetButtonDown("Cancel")) {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    void Update() 
+    {
+        bool escPressed = Input.GetKey(KeyCode.Escape);
+
+        // Press Esc to pause
+        if (escPressed) {
+            gameState = GameState.Paused;
+        }
+
+        // Pressing Ctrl + Alt + Esc at the same time will restart the game.
+        // 
+        if (ctrlPressed && altPressed && escPressed) 
+        {
+            if (resetted == false) {
+                resetted = true;
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
+        }
+        else {
+            resetted = false;
         }
     }
 
