@@ -17,4 +17,4 @@ Dodge their attacks and blast them with your spaceship's **charge cannon**!
 - Pixel Art: [Aseprite](https://www.aseprite.org/)
 - Sounds: [Freesound.org](https://freesound.org/) and [Audacity](https://www.audacityteam.org/)
 - Music: [LMMS](https://lmms.io/)
-- Font: [Mecha]https://www.dafont.com/mecha-cf.font
+- Font: [Mecha](https://www.dafont.com/mecha-cf.font)
