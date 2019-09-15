@@ -1,6 +1,6 @@
 # Jet Spaceman
 ![Jet Spaceman Screenshot](/imgs/jetspaceman1.png)
-#### by: Jonathan Paul Fox
+Creator: Jonathan Paul Fox
 
 ### Intro
 **Jet**, the universe is under attack by the EVIL **Buggler** army! We need you to fight back! 
