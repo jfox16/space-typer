@@ -1,9 +1,10 @@
 # Jet Spaceman
-## by Jonathan Paul Fox
+## by: Jonathan Paul Fox
 ![Jet Spaceman Screenshot](/imgs/jetspaceman1.png)
 
 ### Intro
-**Jet**, the universe is under attack by the EVIL **Buggler** army! We need you to fight back! Dodge their attacks, and blast them with your spaceship's **charge cannon**!
+**Jet**, the universe is under attack by the EVIL **Buggler** army! We need you to fight back! 
+Dodge their attacks and blast them with your spaceship's **charge cannon**!
 
 ### Controls
 - WASD/↑←↓→: Move spaceship
