@@ -1,5 +1,4 @@
 # Jet Spaceman
-## by: Jonathan Paul Fox
 ![Jet Spaceman Screenshot](/imgs/jetspaceman1.png)
 
 ### Intro
@@ -18,3 +17,5 @@ Dodge their attacks and blast them with your spaceship's **charge cannon**!
 - Pixel Art: [Aseprite](https://www.aseprite.org/)
 - Sounds: [Freesound.org](https://freesound.org/) and [Audacity](https://www.audacityteam.org/)
 - Music: [LMMS](https://lmms.io/)
+
+## by: Jonathan Paul Fox
