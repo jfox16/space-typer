@@ -18,4 +18,4 @@ Dodge their attacks and blast them with your spaceship's **charge cannon**!
 - Sounds: [Freesound.org](https://freesound.org/) and [Audacity](https://www.audacityteam.org/)
 - Music: [LMMS](https://lmms.io/)
 
-## by: Jonathan Paul Fox
+#### by: Jonathan Paul Fox
