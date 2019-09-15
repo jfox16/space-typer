@@ -10,10 +10,11 @@ Dodge their attacks and blast them with your spaceship's **charge cannon**!
 - Space: Shoot weapon
 - Don't press Space: Charge weapon
 
-## [Click here to play it in your browser(HTML5)](https://fishwash.github.io/jet-spaceman/)
+## [Click here to play Jet Spaceman (HTML5)](https://fishwash.github.io/jet-spaceman/)
 
 ### Tools Used
 - Game Engine: [Unity](https://unity.com/)
 - Pixel Art: [Aseprite](https://www.aseprite.org/)
 - Sounds: [Freesound.org](https://freesound.org/) and [Audacity](https://www.audacityteam.org/)
 - Music: [LMMS](https://lmms.io/)
+- Font: [Mecha]https://www.dafont.com/mecha-cf.font
