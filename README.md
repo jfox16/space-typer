@@ -1,10 +1,14 @@
 # Jet Spaceman
+## by Jonathan Paul Fox
 
+
+### Intro
 ![Jet Spaceman Screenshot](/imgs/jetspaceman1.png)
 
-Jet Spaceman is a space shooter built in Unity by me, Jonathan Fox!
+**Jet**, the universe is under attack by the EVIL **Buggler** army! We need you to fight back!  Blast them away with your spaceship's **charge cannon**!
 
-## [Click here to play it in your browser!](https://fishwash.github.io/jet-spaceman/)
+### Intro
+## [Click here to play it in your browser(HTML5)](https://fishwash.github.io/jet-spaceman/)
 
 ## Controls
 - Move: WASD or Arrow Keys
