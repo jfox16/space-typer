@@ -1,4 +1,4 @@
-# [Jet Spaceman](https://fishwash.github.io/jet-spaceman/)
+# Jet Spaceman
 ## [👉 Click here to play in browser(HTML5)](https://fishwash.github.io/jet-spaceman/)
 ![Jet Spaceman Screenshot](/imgs/jetspaceman1.png)
 
@@ -8,6 +8,9 @@
 Dodge their attacks and blast them with your spaceship's **charge cannon**!
 
 The **charge cannon** has 3 modes: 
+Level 1: pellets
+Level 2: multi-hit shot
+Level 3: BIG BOI
 
 ### Controls
 - WASD/↑←↓→: Move spaceship
