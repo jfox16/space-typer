@@ -1,5 +1,5 @@
 # [Jet Spaceman](https://fishwash.github.io/jet-spaceman/)
-## [☝️ Click Here to Play in Browser(HTML5)](https://fishwash.github.io/jet-spaceman/)
+## [☝️ Click here to play in browser(HTML5)](https://fishwash.github.io/jet-spaceman/)
 ![Jet Spaceman Screenshot](/imgs/jetspaceman1.png)
 
 ### Intro
@@ -10,8 +10,6 @@ Dodge their attacks and blast them with your spaceship's **charge cannon**!
 - WASD/↑←↓→: Move spaceship
 - Space: Shoot weapon
 - Don't press Space: Charge weapon
-
-## [Click here to play Jet Spaceman (HTML5)](https://fishwash.github.io/jet-spaceman/)
 
 ### Tools Used
 - Game Engine: [Unity](https://unity.com/)
