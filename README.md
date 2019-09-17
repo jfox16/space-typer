@@ -9,7 +9,7 @@ Dodge their attacks and blast them with your spaceship's **charge cannon**!
 ### Controls
 - WASD/↑←↓→: Move spaceship
 - Space: Shoot weapon
-- Don't press Space: Charge weapon
+- Let go of Space: Charge weapon
 
 ### Tools Used
 - Game Engine: Coded by me in [Unity](https://unity.com/)
