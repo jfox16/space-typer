@@ -1,10 +1,13 @@
 # [Jet Spaceman](https://fishwash.github.io/jet-spaceman/)
-## [☝️ Click here to play in browser(HTML5)](https://fishwash.github.io/jet-spaceman/)
+## [👉 Click here to play in browser(HTML5)](https://fishwash.github.io/jet-spaceman/)
 ![Jet Spaceman Screenshot](/imgs/jetspaceman1.png)
 
-### Intro
-**Jet**, the universe is under attack by the EVIL **Buggler** army! We need you to fight back! 
+### Story
+**Jet**, the universe is under attack by the EVIL **Buggler** army! We need you to fight back!
+
 Dodge their attacks and blast them with your spaceship's **charge cannon**!
+
+The **charge cannon** has 3 modes: 
 
 ### Controls
 - WASD/↑←↓→: Move spaceship
