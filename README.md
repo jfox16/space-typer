@@ -1,4 +1,5 @@
-# Jet Spaceman
+# [Jet Spaceman](https://fishwash.github.io/jet-spaceman/)
+## [☝️ Click Here to Play in Browser(HTML5)](https://fishwash.github.io/jet-spaceman/)
 ![Jet Spaceman Screenshot](/imgs/jetspaceman1.png)
 
 ### Intro
