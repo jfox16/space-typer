@@ -12,8 +12,8 @@ Dodge their attacks and blast them with your spaceship's **charge cannon**!
 - Don't press Space: Charge weapon
 
 ### Tools Used
-- Game Engine: [Unity](https://unity.com/)
-- Pixel Art: [Aseprite](https://www.aseprite.org/)
+- Game Engine: Coded by me in [Unity](https://unity.com/)
+- Pixel Art: Drawn by me in [Aseprite](https://www.aseprite.org/)
 - Sounds: [Freesound.org](https://freesound.org/) and [Audacity](https://www.audacityteam.org/)
-- Music: [LMMS](https://lmms.io/)
+- Music: Composed by me in [LMMS](https://lmms.io/)
 - Font: [Mecha](https://www.dafont.com/mecha-cf.font)
