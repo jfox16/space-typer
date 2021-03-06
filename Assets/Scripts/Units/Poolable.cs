@@ -28,7 +28,8 @@ public abstract class Poolable : MonoBehaviour
     #region LIFECYCLE METHODS
 
     // For intializing things that need to reinitialize every time this Unit is respawned.
-    public abstract void Spawn();
+    public virtual void Spawn()
+    {}
 
     public virtual void Die()
     {

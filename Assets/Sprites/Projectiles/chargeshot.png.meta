@@ -1,15 +1,27 @@
 fileFormatVersion: 2
 guid: b94fa1e330f97f341a211dfbcdf51f8e
 TextureImporter:
-  fileIDToRecycleName:
-    21300000: chargeshot_0
-    21300002: chargeshot_1
-    21300004: chargeshot_2
-    21300006: chargeshot_3
-    21300008: chargeshot_4
-    21300010: chargeshot_5
+  internalIDToNameTable:
+  - first:
+      213: 21300000
+    second: chargeshot_0
+  - first:
+      213: 21300002
+    second: chargeshot_1
+  - first:
+      213: 21300004
+    second: chargeshot_2
+  - first:
+      213: 21300006
+    second: chargeshot_3
+  - first:
+      213: 21300008
+    second: chargeshot_4
+  - first:
+      213: 21300010
+    second: chargeshot_5
   externalObjects: {}
-  serializedVersion: 9
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -63,8 +75,9 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  applyGammaDecoding: 1
   platformSettings:
-  - serializedVersion: 2
+  - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -75,7 +88,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -86,7 +100,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: iPhone
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -97,7 +112,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -108,7 +124,8 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-  - serializedVersion: 2
+    forceMaximumCompressionQuality_BC6H_BC7: 1
+  - serializedVersion: 3
     buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -119,6 +136,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 1
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -138,6 +156,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 927f952e3c5fb9647bba1cfcf4388eb0
+      internalID: 21300000
       vertices: []
       indices: 
       edges: []
@@ -158,6 +177,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: f7d6b86cdbf9d7c44af3eb2604b4b598
+      internalID: 21300002
       vertices: []
       indices: 
       edges: []
@@ -178,6 +198,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 8af0b183624c08549b80bffe2a8cf465
+      internalID: 21300004
       vertices: []
       indices: 
       edges: []
@@ -198,6 +219,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 18e16653107ff34428e900c9d217ce2f
+      internalID: 21300006
       vertices: []
       indices: 
       edges: []
@@ -218,6 +240,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: a6ff3c2d88a10d749acd5728ffd63c27
+      internalID: 21300008
       vertices: []
       indices: 
       edges: []
@@ -238,6 +261,7 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 5686836f1566ce747aea5f6ed02ca67e
+      internalID: 21300010
       vertices: []
       indices: 
       edges: []
@@ -246,10 +270,12 @@ TextureImporter:
     physicsShape: []
     bones: []
     spriteID: 1e4aa8aec2d822d4781448141b8ad63a
+    internalID: 0
     vertices: []
     indices: 
     edges: []
     weights: []
+    secondaryTextures: []
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

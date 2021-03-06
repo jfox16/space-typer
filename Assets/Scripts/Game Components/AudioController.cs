@@ -52,6 +52,7 @@ public class AudioController : MonoBehaviour
 
     public void PlayOneShot(AudioClip clip)
     {
+        soundEffectSource.pitch = Random.Range(0.90f, 1.10f);
         if (clip != null) {
             soundEffectSource.PlayOneShot(clip, soundVolume);
         }
