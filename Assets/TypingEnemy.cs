@@ -76,9 +76,16 @@ public class TypingEnemy : Poolable
 
     string formatTargetWord(string targetWord, int currentIndex)
     {
-        string done = targetWord.Substring(0, currentIndex);
-        string notDone = targetWord.Substring(currentIndex, targetWord.Length - currentIndex);
-        return string.Format("<color=#ffc61c>{0}</color>{1}", done, notDone);
+        if (currentIndex < targetWord.Length)
+        {
+            string done = targetWord.Substring(0, currentIndex);
+            string notDone = targetWord.Substring(currentIndex, targetWord.Length - currentIndex);
+            return string.Format("<color=#ffc61c>{0}</color>{1}", done, notDone);
+        }
+        else
+        {
+            return string.Format("");
+        }
     }
 
     void UpdateTextMesh(string newText)
@@ -93,14 +100,7 @@ public class TypingEnemy : Poolable
 
     public void UpdateIndex(int i)
     {
-        if (i < targetWord.Length)
-        {
-            UpdateTextMesh(formatTargetWord(targetWord, i));
-        }
-        else
-        {
-            UpdateTextMesh("");
-        }
+        UpdateTextMesh(formatTargetWord(targetWord, i));
     }
 
     public void SetTargetWord(string targetWord)
