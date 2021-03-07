@@ -46,7 +46,7 @@ public class TypingGameController : MonoBehaviour
     {
         Instance = this;
         words = WordImporter.GetWords(difficulty, NUM_WORDS);
-        enemySpawnTimer = new Timer(5);
+        enemySpawnTimer = new Timer(3);
     }
 
     void Start()
