@@ -6,8 +6,10 @@ public class TypingGameField : MonoBehaviour
 {
     public static TypingGameField Instance;
 
-    public List<List<TypingEnemy>> enemyLanes = new List<List<TypingEnemy>>();
-    public float[] laneXs;
+    List<List<TypingEnemy>> enemyLanes = new List<List<TypingEnemy>>();
+    public float[] laneXs { get; private set; }
+
+    [SerializeField] GameObject laneMarkerPrefab = null;
 
     int numLanes { get { return TypingGameController.NUM_LANES; } }
 
@@ -26,6 +28,7 @@ public class TypingGameField : MonoBehaviour
             laneXs[i] = x;
             List<TypingEnemy> enemyLane = new List<TypingEnemy>();
             enemyLanes.Add(enemyLane);
+            Instantiate(laneMarkerPrefab, new Vector3(x, TypingGameController.PLAYER_Y, 0), Quaternion.identity);
         }
     }
 

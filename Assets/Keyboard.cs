@@ -14,6 +14,6 @@ public class Keyboard : MonoBehaviour
         }
         
         AudioClip randomKeyPressClip = keyPressClips[Random.Range(0, keyPressClips.Count)];
-        AudioController.Instance.PlayOneShot(randomKeyPressClip);
+        // AudioController.Instance.PlayOneShot(randomKeyPressClip);
     }
 }

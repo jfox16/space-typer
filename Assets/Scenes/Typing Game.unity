@@ -171,6 +171,7 @@ MonoBehaviour:
   animator: {fileID: 29176750}
   typingWeapon: {fileID: 1101522626}
   keyboard: {fileID: 1923392936}
+  dashClip: {fileID: 8300000, guid: 84d8128a1a119ac4e85fa4ee290c203c, type: 3}
 --- !u!95 &29176750
 Animator:
   serializedVersion: 3
@@ -373,7 +374,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45d33264a2f118c47b35e7b1466a493f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  laneXs: []
+  laneMarkerPrefab: {fileID: 1535106336179148861, guid: 56afdd83728895c40a68ab6c3956efc4,
+    type: 3}
 --- !u!4 &458447351
 Transform:
   m_ObjectHideFlags: 0
@@ -786,7 +788,7 @@ MonoBehaviour:
   shotClip: {fileID: 8300000, guid: 655aefe7b26d1b94da1085af7807061c, type: 3}
   killShotPrefab: {fileID: 1238839422351122539, guid: 07ec4544004f4fd458b73f2c0ce7dd0a,
     type: 3}
-  killShotClip: {fileID: 8300000, guid: 655aefe7b26d1b94da1085af7807061c, type: 3}
+  killShotClip: {fileID: 8300000, guid: 3c6dc05121d5ff24a8c6c3c345ac651f, type: 3}
   shootDelay: 0.05
 --- !u!4 &1101522627
 Transform:
@@ -820,7 +822,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1173643950
 RectTransform:
   m_ObjectHideFlags: 0

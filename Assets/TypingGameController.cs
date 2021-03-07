@@ -14,7 +14,7 @@ public class TypingGameController : MonoBehaviour
     public const float ENEMY_DIE_Y = -5.0f;
     public const float PLAYER_MOVE_TIME = 0.2f;
 
-    [SerializeField] WordImporter.Difficulty difficulty = WordImporter.Difficulty.EASY;
+    [SerializeField] WordImporter.Difficulty difficulty = WordImporter.Difficulty.Easy;
 
     Timer enemySpawnTimer;
     public float enemySpawnTime = 4.0f;
@@ -46,7 +46,7 @@ public class TypingGameController : MonoBehaviour
     {
         Instance = this;
         words = WordImporter.GetWords(difficulty, NUM_WORDS);
-        enemySpawnTimer = new Timer();
+        enemySpawnTimer = new Timer(5);
     }
 
     void Start()
@@ -272,5 +272,14 @@ public class TypingGameController : MonoBehaviour
     void SpawnEnemy()
     {
         // PoolController.Activate(enemyPrefab, )
+    }
+
+    public void RemoveEnemy(TypingEnemy enemy)
+    {
+        if (currentTarget == enemy)
+        {
+            ResetTarget();
+        }
+        TypingGameField.Instance.RemoveEnemy(enemy);
     }
 }

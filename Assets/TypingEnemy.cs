@@ -46,6 +46,7 @@ public class TypingEnemy : Poolable
 
             if (transform.position.y <= TypingGameController.ENEMY_DIE_Y)
             {
+                TypingGameController.Instance.RemoveEnemy(this);
                 isAlive = false;
                 Die();
             }
@@ -80,7 +81,8 @@ public class TypingEnemy : Poolable
         {
             string done = targetWord.Substring(0, currentIndex);
             string notDone = targetWord.Substring(currentIndex, targetWord.Length - currentIndex);
-            return string.Format("<color=#ffc61c>{0}</color>{1}", done, notDone);
+            // return string.Format("<color=#ffbf00>{0}</color>{1}", done, notDone);
+            return string.Format("<color=#70b8ff>{0}</color>{1}", done, notDone);
         }
         else
         {

@@ -7,6 +7,7 @@ public class TypingGamePlayer : MonoBehaviour
     [SerializeField] Animator animator;
     [SerializeField] TypingWeapon typingWeapon;
     [SerializeField] Keyboard keyboard;
+    [SerializeField] AudioClip dashClip;
 
     // For MoveToPosition
     bool isMoving = false;
@@ -34,6 +35,10 @@ public class TypingGamePlayer : MonoBehaviour
 
     public void MoveToPosition(Vector3 destination, float time)
     {
+        if (!isMoving)
+        {
+            AudioController.Instance.PlayOneShot(dashClip);
+        }
         start = transform.position;
         end = destination;
         t = 0;
