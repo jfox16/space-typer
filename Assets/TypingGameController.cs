@@ -12,41 +12,35 @@ public class TypingGameController : MonoBehaviour
     public const float PLAYER_Y = -6.5f;
     public const float ENEMY_SPAWN_Y = 8.5f;
     public const float ENEMY_DIE_Y = -5.0f;
-    public const float PLAYER_MOVE_TIME = 0.2f;
-
-    [SerializeField] WordImporter.Difficulty difficulty = WordImporter.Difficulty.Easy;
+    public const float PLAYER_MOVE_TIME = 0.1f;
 
     Timer enemySpawnTimer;
-    public float enemySpawnTime = 4.0f;
-    int enemySpawn_i;
+    [SerializeField] float enemySpawnTime = 4.0f;
 
     public int shieldHealth = 30;
 
-    public GameObject enemyPrefab = null;
+    [SerializeField] GameObject enemyPrefab = null;
+    [SerializeField] GameObject enemyPrefabHard = null;
+    [SerializeField] GameObject enemyPrefabBaby = null;
 
     public AudioClip typeSound = null;
 
     // "Player" variables
-    public TypingGamePlayer player = null;
+    [SerializeField] TypingGamePlayer player = null;
     TypingEnemy currentTarget = null;
     int currentIndex = 0;
     int currentLane = 2;
     bool isMoving = false;
     int queuedLaneMoves = 0;
-    char queuedLetter = (char) 0;
+    char queuedLetter = '\0';
 
-    //debug
-    string currentWord;
-
-    int lastRandomLane = -1;
-
-    string[] words;
+    List<TypingEnemy> currentWaveEnemies = new List<TypingEnemy>();
+    bool waveStarted = false;
 
     void Awake()
     {
         Instance = this;
-        words = WordImporter.GetWords(difficulty, NUM_WORDS);
-        enemySpawnTimer = new Timer(3);
+        enemySpawnTimer = new Timer(2);
     }
 
     void Start()
@@ -69,26 +63,17 @@ public class TypingGameController : MonoBehaviour
                 MoveLaneDirection(-1);
             }
 
-            if (queuedLetter != (char)0)
+            if (queuedLetter != '\0')
             {
                 PressKey(queuedLetter);
-                queuedLetter = (char)0;
+                queuedLetter = '\0';
             }
         }
 
-        // Spawn enemies
         if (enemySpawnTimer.isDone)
         {
-            string randomWord = words[Random.Range(0, words.Length)];
-            int randomLane = (int) Random.Range(0, NUM_LANES-1);
-            if (randomLane == lastRandomLane) {
-                randomLane = (int) Random.Range(0, NUM_LANES-1);
-            }
-            lastRandomLane = randomLane;
-            
-            TypingGameField.Instance.SpawnEnemy(enemyPrefab, randomLane, randomWord);
+            SpawnWave();
             enemySpawnTimer.SetTime(enemySpawnTime);
-            enemySpawn_i++;
         }
     }
 
@@ -106,18 +91,33 @@ public class TypingGameController : MonoBehaviour
         char letter = e.character;
         int ascii = (int)letter;
 
-        if (ascii >= 97 && ascii <= 122 || ascii == 32 || ascii == 45)
+        if (ascii >= 65 && ascii <= 90)
         {
+            // Turn capital letters lowercase
+            PressKey((char)(ascii + 32));
+        }
+        else if (ascii >= 97 && ascii <= 122 || ascii == 32 || ascii == 45)
+        {
+            // lowercase letters, dash, space
             PressKey(letter);
+        }
+        else if (ascii >= 49 && ascii <= 53)
+        {
+            // Treat numbers as a move command
+            MoveToLane(ascii - 49);
         }
         else
         {
+            bool shiftHeld = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+            
             switch(e.keyCode)
             {
                 case KeyCode.Tab:
-                    bool shiftHeld = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
-                    int direction = (shiftHeld ? -1 : 1);
-                    MoveLaneDirection(direction);
+                    MoveLaneDirection(shiftHeld ? 1 : -1);
+                    break;
+
+                case KeyCode.Return:
+                    MoveLaneDirection(shiftHeld ? -1 : 1);
                     break;
 
                 case KeyCode.LeftArrow:
@@ -145,17 +145,14 @@ public class TypingGameController : MonoBehaviour
             if (!currentTarget) return;
         }
 
-        string word = currentTarget.targetWord;
-        currentWord = word;
+        string currentWord = currentTarget.targetWord;
 
-        if (letter == word[currentIndex])
+        if (letter == currentWord[currentIndex])
         {
             currentIndex++;
             currentTarget.UpdateIndex(currentIndex);
 
-            player.PlayKeyPress();
-
-            if (currentIndex < word.Length)
+            if (currentIndex < currentWord.Length)
             {
                 player.Shoot(currentTarget);
             }
@@ -172,7 +169,6 @@ public class TypingGameController : MonoBehaviour
     {
         currentTarget = null;
         currentIndex = 0;
-        currentWord = "";
     }
 
     void MoveLaneDirection(int direction)
@@ -180,17 +176,13 @@ public class TypingGameController : MonoBehaviour
         if (!isMoving)
         {
             int newLane = (currentLane + direction + NUM_LANES) % NUM_LANES;
-            if (currentTarget != null)
-            {
-                currentTarget.UpdateIndex(0);
-            }
             MoveToLane(newLane);
         }
         else
         {
             // queue a lane move
             queuedLaneMoves = direction;
-            queuedLaneMoves = Mathf.Clamp(direction, -5, 5);
+            queuedLaneMoves = Mathf.Clamp(direction, -3, 3);
         }
     }
 
@@ -198,8 +190,14 @@ public class TypingGameController : MonoBehaviour
     {
         if (isMoving) return;
 
+        if (currentTarget != null)
+        {
+            currentTarget.UpdateIndex(0);
+        }
+
         isMoving = true;
         ResetTarget();
+
         if ( currentLane == NUM_LANES-1 && newLane == 0 )
         {
             StartCoroutine(LoopAfterTime(newLane, 1));
@@ -216,7 +214,7 @@ public class TypingGameController : MonoBehaviour
 
     IEnumerator MoveAfterTime(int newLane)
     {
-        float seconds = Mathf.Abs(currentLane - newLane) * PLAYER_MOVE_TIME;
+        float seconds = (Mathf.Abs(currentLane - newLane) + 1) * PLAYER_MOVE_TIME;
         float newLaneX = TypingGameField.Instance.laneXs[newLane];
         Vector3 newLanePosition = new Vector3( newLaneX, PLAYER_Y, player.transform.position.z );
         player.MoveToPosition(newLanePosition, seconds);
@@ -232,7 +230,7 @@ public class TypingGameController : MonoBehaviour
     // Same as MoveAfterTime, but for going off the screen and coming back on the other side
     IEnumerator LoopAfterTime(int newLane, int direction)
     {
-        float seconds = PLAYER_MOVE_TIME / 2;
+        float seconds = PLAYER_MOVE_TIME;
 
         float currentLaneX = TypingGameField.Instance.laneXs[currentLane];
         float newLaneX = TypingGameField.Instance.laneXs[newLane];
@@ -269,9 +267,39 @@ public class TypingGameController : MonoBehaviour
         player.transform.position = secondPosition;
     }
 
-    void SpawnEnemy()
+    void SpawnWave()
     {
-        // PoolController.Activate(enemyPrefab, )
+        float enemyDifficulty = Random.Range(0.0f, 1.0f);
+        WordImporter.Difficulty wordDifficulty;
+        GameObject spawnEnemyPrefab;
+        int numberOfEnemies;
+
+        if (enemyDifficulty < 0.4f)
+        {
+            wordDifficulty = WordImporter.Difficulty.Medium;
+            spawnEnemyPrefab = enemyPrefab;
+            numberOfEnemies = 3;
+        }
+        else if (enemyDifficulty < 0.7f)
+        {
+            wordDifficulty = WordImporter.Difficulty.Legendary;
+            spawnEnemyPrefab = enemyPrefabHard;
+            numberOfEnemies = 2;
+        }
+        else
+        {
+            wordDifficulty = WordImporter.Difficulty.Baby;
+            spawnEnemyPrefab = enemyPrefabBaby;
+            numberOfEnemies = 4;
+        }
+
+        int[] randomLanes = RandomUtil.RandomInts(0, NUM_LANES, numberOfEnemies);
+        foreach (int lane in randomLanes)
+        {
+            string randomWord = WordImporter.GetWord(wordDifficulty);
+            TypingEnemy enemy = TypingGameField.Instance.SpawnEnemy(spawnEnemyPrefab, lane, randomWord);
+            currentWaveEnemies.Add(enemy);
+        }
     }
 
     public void RemoveEnemy(TypingEnemy enemy)
@@ -281,5 +309,6 @@ public class TypingGameController : MonoBehaviour
             ResetTarget();
         }
         TypingGameField.Instance.RemoveEnemy(enemy);
+        currentWaveEnemies.Remove(enemy);
     }
 }

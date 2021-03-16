@@ -6,54 +6,35 @@ using SimpleJSON;
 
 public class WordImporter
 {
-    public enum Difficulty { Easy, Medium, Hard };
+    public enum Difficulty { Baby, Easy, Medium, Hard, Legendary };
 
-    public static string[] GetWords(Difficulty difficulty, int numWords)
+    public static string[] GetWords(Difficulty difficulty)
     {
-        string filePath;
-
-        // switch(difficulty)
-        // {
-        //     case Difficulty.EASY:
-        //         filePath = "Assets/Data/js/easy-words.json";
-        //         break;
-
-        //     case Difficulty.MEDIUM:
-        //         filePath = "Assets/Data/js/medium-words.json";
-        //         break;
-
-        //     case Difficulty.HARD:
-        //         filePath = "Assets/Data/js/hard-words.json";
-        //         break;
-
-        //     default:
-        //         filePath = "Assets/Data/js/easy-words.json";
-        //         break;
-        // }
-
-        // StreamReader reader = new StreamReader(filePath);
-        // string jsonString = reader.ReadToEnd();
-        // JSONArray jsonArray = JSON.Parse(jsonString).AsArray;
-
-        // string[] words = new string[jsonArray.Count];
-        // for (int i = 0; i < jsonArray.Count; i++)
-        // {
-        //     words[i] = jsonArray[i].Value;
-        // }
-
         switch(difficulty)
         {
+            case Difficulty.Baby:
+                return Data.wordsByLevel[0];
+
             case Difficulty.Easy:
-                return Data.easyWords;
+                return Data.wordsByLevel[1];
 
             case Difficulty.Medium:
-                return Data.mediumWords;
+                return Data.wordsByLevel[2];
 
             case Difficulty.Hard:
-                return Data.hardWords;
+                return Data.wordsByLevel[3];
+
+            case Difficulty.Legendary:
+                return Data.wordsByLevel[4];
 
             default:
-                return Data.easyWords;
+                return Data.wordsByLevel[0];
         }
+    }
+
+    public static string GetWord(Difficulty difficulty)
+    {
+        string[] words = GetWords(difficulty);
+        return words[Random.Range(0, words.Length)];
     }
 }

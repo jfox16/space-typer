@@ -6,7 +6,6 @@ public class TypingGamePlayer : MonoBehaviour
 {
     [SerializeField] Animator animator;
     [SerializeField] TypingWeapon typingWeapon;
-    [SerializeField] Keyboard keyboard;
     [SerializeField] AudioClip dashClip;
 
     // For MoveToPosition
@@ -59,10 +58,5 @@ public class TypingGamePlayer : MonoBehaviour
     public void ShootKillShot(TypingEnemy target)
     {
         typingWeapon.ShootKillShot(target);
-    }
-
-    public void PlayKeyPress()
-    {
-        keyboard.PlayKeyPress();
     }
 }

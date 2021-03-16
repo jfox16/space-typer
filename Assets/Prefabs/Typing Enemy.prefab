@@ -130,7 +130,7 @@ MonoBehaviour:
   targetWord: cheese
   isAlive: 0
   acceleration: 3
-  maxSpeed: 3
+  maxSpeed: 2
   knockbackDecay: 0.4
   collider: {fileID: 0}
   lane: -1

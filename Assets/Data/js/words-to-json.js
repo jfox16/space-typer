@@ -25,35 +25,35 @@ fs.readFile(relativeFilePath, 'utf8', (err, data) => {
 
   console.log("Parsed " + words.length + " words");
 
-  const easyWords = words.filter(word => word.length <= 6);
-  const mediumWords = words.filter(word => word.length >= 6 && word.length <= 9);
-  const hardWords = words.filter(word => word.length >= 9);
+  wordsByLevel = [];
 
-  console.log(easyWords.length + ' easy words');
-  console.log(mediumWords.length + ' medium words');
-  console.log(hardWords.length + ' hard words');
+  wordsByLevel[0] = words.filter(word => word.length <= 2);
+  wordsByLevel[1] = words.filter(word => word.length >= 3 && word.length <= 4);
+  wordsByLevel[2] = words.filter(word => word.length >= 5 && word.length <= 7);
+  wordsByLevel[3] = words.filter(word => word.length >= 8 && word.length <= 10);
+  wordsByLevel[4] = words.filter(word => word.length >= 11);
 
-  // fs.writeFile('easy-words.json', JSON.stringify(easyWords), () => console.log('easy-words.json finished!'));
-  // fs.writeFile('medium-words.json', JSON.stringify(mediumWords), () => console.log('medium-words.json finished!'));
-  // fs.writeFile('hard-words.json', JSON.stringify(hardWords), () => console.log('hard-words.json finished!'));
+  wordsByLevel.forEach((words, i) => {
+    console.log (`Level ${i}: ${words.length} words`);
+  });
+
+  const csArrayStrings = wordsByLevel.map(words => `new string[] ${wordsToCsArrayString(words)}`);
 
   const fileData = `
 class Data
 {
-    public static string[] easyWords = { ${wordsToCsArrayString(easyWords)} };
+    public static string[][] wordsByLevel = {
 
-    public static string[] mediumWords = { ${wordsToCsArrayString(mediumWords)} };
+        ${csArrayStrings.join(',\n\n        ')}
 
-    public static string[] hardWords = { ${wordsToCsArrayString(hardWords)} };
+    };
 }
   `;
 
   fs.writeFile('Data.cs', fileData, () => console.log('File is done!'));
 });
 
-function wordsToCsArrayString(words)
-{
+function wordsToCsArrayString(words) {
   const quotedWords = words.map(word => `"${word}"`);
-
-  return quotedWords.join(', ');
+return (`{ ${quotedWords.join(', ')} }`);
 }

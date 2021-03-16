@@ -28,7 +28,10 @@ public class TypingGameField : MonoBehaviour
             laneXs[i] = x;
             List<TypingEnemy> enemyLane = new List<TypingEnemy>();
             enemyLanes.Add(enemyLane);
-            Instantiate(laneMarkerPrefab, new Vector3(x, TypingGameController.PLAYER_Y, 0), Quaternion.identity);
+
+            GameObject laneMarkerGo = Instantiate(laneMarkerPrefab, new Vector3(x, TypingGameController.PLAYER_Y, 0), Quaternion.identity);
+            LaneMarker laneMarker = laneMarkerGo.GetComponent<LaneMarker>();
+            laneMarker.SetText((i+1).ToString());
         }
     }
 

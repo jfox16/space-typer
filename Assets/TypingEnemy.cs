@@ -71,6 +71,7 @@ public class TypingEnemy : Poolable
 
     public override void Die()
     {
+        TypingGameController.Instance.RemoveEnemy(this);
         animator.SetTrigger("Die");
         isAlive = false;
     }
